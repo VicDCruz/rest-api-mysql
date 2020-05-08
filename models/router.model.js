@@ -1,5 +1,14 @@
 const sql = require("./db.js");
 
+// 1 - Colección no pudo ser obtenida
+// 2 - Error para encontrar un ID
+// 3 - Error al guardar con un registro
+// 4 - Error al guardar con varios registros
+// 5 - Género no es correcto
+// 6 - Llaves no corresponden
+// 7 - Error al actualizar
+// 8 - Error al eliminar
+
 // constructor
 const Router = function (router) {
   this.noeco = router.noeco;
@@ -13,7 +22,7 @@ const Router = function (router) {
 Router.create = (newRouter, result) => {
   sql.query("INSERT INTO routers SET ?", newRouter, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log("Error: ", err);
       result(err, null);
       return;
     }
@@ -26,7 +35,7 @@ Router.create = (newRouter, result) => {
 Router.findById = (routerId, result) => {
   sql.query(`SELECT * FROM routers WHERE id = ${routerId}`, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log("Error: ", err);
       result(err, null);
       return;
     }
@@ -45,7 +54,7 @@ Router.findById = (routerId, result) => {
 Router.getAll = result => {
   sql.query("SELECT * FROM routers", (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log("Error: ", err);
       result(null, err);
       return;
     }
@@ -61,7 +70,7 @@ Router.updateById = (id, router, result) => {
     [router.email, router.name, router.active, id],
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
+        console.log("Error: ", err);
         result(null, err);
         return;
       }
@@ -81,7 +90,7 @@ Router.updateById = (id, router, result) => {
 Router.remove = (id, result) => {
   sql.query("DELETE FROM routers WHERE id = ?", id, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log("Error: ", err);
       result(null, err);
       return;
     }
@@ -100,7 +109,7 @@ Router.remove = (id, result) => {
 Router.removeAll = result => {
   sql.query("DELETE FROM routers", (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log("Error: ", err);
       result(null, err);
       return;
     }
