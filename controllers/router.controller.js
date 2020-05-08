@@ -1,6 +1,6 @@
-const Customer = require("../models/customer.model.js");
+const Router = require("../models/router.model.js");
 
-// Create and Save a new Customer
+// Create and Save a new Router
 exports.create = (req, res) => {
   // Validate request
   if (!req.body) {
@@ -9,54 +9,57 @@ exports.create = (req, res) => {
     });
   }
 
-  // Create a Customer
-  const customer = new Customer({
+  // Create a Router
+  const router = new Router({
+    noeco: req.body.noeco,
+    mac: req.body.mac,
     email: req.body.email,
-    name: req.body.name,
-    active: req.body.active
+    edad: req.body.edad,
+    cp: req.body.cp,
+    genero: req.body.genero,
   });
 
-  // Save Customer in the database
-  Customer.create(customer, (err, data) => {
+  // Save Router in the database
+  Router.create(router, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Customer."
+          err.message || "Some error occurred while creating the Router."
       });
     else res.send(data);
   });
 };
 
-// Retrieve all Customers from the database.
+// Retrieve all Routers from the database.
 exports.findAll = (req, res) => {
-  Customer.getAll((err, data) => {
+  Router.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving customers."
+          err.message || "Some error occurred while retrieving routers."
       });
     else res.send(data);
   });
 };
 
-// Find a single Customer with a customerId
+// Find a single Router with a routerId
 exports.findOne = (req, res) => {
-  Customer.findById(req.params.customerId, (err, data) => {
+  Router.findById(req.params.routerId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Customer with id ${req.params.customerId}.`
+          message: `Not found Router with id ${req.params.routerId}.`
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Customer with id " + req.params.customerId
+          message: "Error retrieving Router with id " + req.params.routerId
         });
       }
     } else res.send(data);
   });
 };
 
-// Update a Customer identified by the customerId in the request
+// Update a Router identified by the routerId in the request
 exports.update = (req, res) => {
   // Validate Request
   if (!req.body) {
@@ -65,18 +68,18 @@ exports.update = (req, res) => {
     });
   }
 
-  Customer.updateById(
-    req.params.customerId,
-    new Customer(req.body),
+  Router.updateById(
+    req.params.routerId,
+    new Router(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Customer with id ${req.params.customerId}.`
+            message: `Not found Router with id ${req.params.routerId}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Customer with id " + req.params.customerId
+            message: "Error updating Router with id " + req.params.routerId
           });
         }
       } else res.send(data);
@@ -84,31 +87,31 @@ exports.update = (req, res) => {
   );
 };
 
-// Delete a Customer with the specified customerId in the request
+// Delete a Router with the specified routerId in the request
 exports.delete = (req, res) => {
-  Customer.remove(req.params.customerId, (err, data) => {
+  Router.remove(req.params.routerId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Customer with id ${req.params.customerId}.`
+          message: `Not found Router with id ${req.params.routerId}.`
         });
       } else {
         res.status(500).send({
-          message: "Could not delete Customer with id " + req.params.customerId
+          message: "Could not delete Router with id " + req.params.routerId
         });
       }
-    } else res.send({ message: `Customer was deleted successfully!` });
+    } else res.send({ message: `Router was deleted successfully!` });
   });
 };
 
-// Delete all Customers from the database.
+// Delete all Routers from the database.
 exports.deleteAll = (req, res) => {
-  Customer.removeAll((err, data) => {
+  Router.removeAll((err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while removing all customers."
+          err.message || "Some error occurred while removing all routers."
       });
-    else res.send({ message: `All Customers were deleted successfully!` });
+    else res.send({ message: `All Routers were deleted successfully!` });
   });
 };

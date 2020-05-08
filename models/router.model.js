@@ -1,27 +1,30 @@
 const sql = require("./db.js");
 
 // constructor
-const Customer = function (customer) {
-  this.email = customer.email;
-  this.name = customer.name;
-  this.active = customer.active;
+const Router = function (router) {
+  this.noeco = router.noeco;
+  this.mac = router.mac;
+  this.email = router.email;
+  this.edad = router.edad;
+  this.cp = router.cp;
+  this.genero = router.genero;
 };
 
-Customer.create = (newCustomer, result) => {
-  sql.query("INSERT INTO customers SET ?", newCustomer, (err, res) => {
+Router.create = (newRouter, result) => {
+  sql.query("INSERT INTO routers SET ?", newRouter, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created customer: ", { id: res.insertId, ...newCustomer });
-    result(null, { id: res.insertId, ...newCustomer });
+    console.log("created router: ", { id: res.insertId, ...newRouter });
+    result(null, { id: res.insertId, ...newRouter });
   });
 };
 
-Customer.findById = (customerId, result) => {
-  sql.query(`SELECT * FROM customers WHERE id = ${customerId}`, (err, res) => {
+Router.findById = (routerId, result) => {
+  sql.query(`SELECT * FROM routers WHERE id = ${routerId}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -29,33 +32,33 @@ Customer.findById = (customerId, result) => {
     }
 
     if (res.length) {
-      console.log("found customer: ", res[0]);
+      console.log("found router: ", res[0]);
       result(null, res[0]);
       return;
     }
 
-    // not found Customer with the id
+    // not found Router with the id
     result({ kind: "not_found" }, null);
   });
 };
 
-Customer.getAll = result => {
-  sql.query("SELECT * FROM customers", (err, res) => {
+Router.getAll = result => {
+  sql.query("SELECT * FROM routers", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
       return;
     }
 
-    console.log("customers: ", res);
+    console.log("routers: ", res);
     result(null, res);
   });
 };
 
-Customer.updateById = (id, customer, result) => {
+Router.updateById = (id, router, result) => {
   sql.query(
-    "UPDATE customers SET email = ?, name = ?, active = ? WHERE id = ?",
-    [customer.email, customer.name, customer.active, id],
+    "UPDATE routers SET email = ?, name = ?, active = ? WHERE id = ?",
+    [router.email, router.name, router.active, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -64,19 +67,19 @@ Customer.updateById = (id, customer, result) => {
       }
 
       if (res.affectedRows == 0) {
-        // not found Customer with the id
+        // not found Router with the id
         result({ kind: "not_found" }, null);
         return;
       }
 
-      console.log("updated customer: ", { id: id, ...customer });
-      result(null, { id: id, ...customer });
+      console.log("updated router: ", { id: id, ...router });
+      result(null, { id: id, ...router });
     }
   );
 };
 
-Customer.remove = (id, result) => {
-  sql.query("DELETE FROM customers WHERE id = ?", id, (err, res) => {
+Router.remove = (id, result) => {
+  sql.query("DELETE FROM routers WHERE id = ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -84,27 +87,27 @@ Customer.remove = (id, result) => {
     }
 
     if (res.affectedRows == 0) {
-      // not found Customer with the id
+      // not found Router with the id
       result({ kind: "not_found" }, null);
       return;
     }
 
-    console.log("deleted customer with id: ", id);
+    console.log("deleted router with id: ", id);
     result(null, res);
   });
 };
 
-Customer.removeAll = result => {
-  sql.query("DELETE FROM customers", (err, res) => {
+Router.removeAll = result => {
+  sql.query("DELETE FROM routers", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
       return;
     }
 
-    console.log(`deleted ${res.affectedRows} customers`);
+    console.log(`deleted ${res.affectedRows} routers`);
     result(null, res);
   });
 };
 
-module.exports = Customer;
+module.exports = Router;
