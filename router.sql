@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS `routers` (
   email varchar(255) NOT NULL,
   edad varchar(255) NOT NULL,
   cp varchar(255) NOT NULL,
-  genero varchar(255) NOT NULL,
+  genero varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
